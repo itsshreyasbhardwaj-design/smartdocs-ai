@@ -1,12 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { analyzeRepository, RepoNotFoundError } from "@/lib/analysis";
+import { checkRateLimit, getClientIp, rateLimitResponse } from "@/lib/rate-limit";
 
 const BodySchema = z.object({
   repoUrl: z.string().min(3).max(300),
 });
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  if (!checkRateLimit(`analyze:${ip}`, { limit: 10, windowMs: 60_000 })) {
+    return rateLimitResponse(60);
+  }
+
   let body: unknown;
   try {
     body = await req.json();

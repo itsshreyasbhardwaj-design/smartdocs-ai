@@ -1,15 +1,28 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
 import { marked } from "marked";
+import { checkRateLimit, getClientIp, rateLimitResponse } from "@/lib/rate-limit";
 // html-to-docx has no type declarations; imported dynamically below.
 
+const MAX_MARKDOWN_LENGTH = 300_000;
+
 const BodySchema = z.object({
-  markdown: z.string(),
+  markdown: z.string().max(MAX_MARKDOWN_LENGTH),
   filename: z.string().min(1).max(200),
   format: z.enum(["html", "docx"]),
 });
 
+function sanitizeFilename(name: string): string {
+  const cleaned = name.replace(/[^a-zA-Z0-9-_]/g, "-").slice(0, 100);
+  return cleaned || "document";
+}
+
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  if (!checkRateLimit(`export:${ip}`, { limit: 30, windowMs: 60_000 })) {
+    return rateLimitResponse(60);
+  }
+
   let body: unknown;
   try {
     body = await req.json();
@@ -22,7 +35,8 @@ export async function POST(req: NextRequest) {
     return new Response("markdown, filename, and format are required.", { status: 400 });
   }
 
-  const { markdown, filename, format } = parsed.data;
+  const { markdown, format } = parsed.data;
+  const filename = sanitizeFilename(parsed.data.filename);
   const html = await marked.parse(markdown, { async: true });
 
   if (format === "html") {

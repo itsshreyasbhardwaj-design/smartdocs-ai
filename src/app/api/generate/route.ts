@@ -4,8 +4,10 @@ import { generateDocument } from "@/lib/docs/generate";
 import { DOC_TYPES } from "@/lib/docs/types";
 import { getAIProvider } from "@/lib/ai";
 import type { RepoAnalysis } from "@/lib/analysis";
+import { checkRateLimit, getClientIp, rateLimitResponse } from "@/lib/rate-limit";
 
 const DOC_TYPE_IDS = DOC_TYPES.map((d) => d.id) as [string, ...string[]];
+const MAX_BODY_BYTES = 300_000;
 
 const BodySchema = z.object({
   docType: z.enum(DOC_TYPE_IDS),
@@ -13,9 +15,19 @@ const BodySchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  if (!checkRateLimit(`generate:${ip}`, { limit: 60, windowMs: 60_000 })) {
+    return rateLimitResponse(60);
+  }
+
+  const raw = await req.text();
+  if (raw.length > MAX_BODY_BYTES) {
+    return new Response("Request body too large.", { status: 413 });
+  }
+
   let body: unknown;
   try {
-    body = await req.json();
+    body = JSON.parse(raw);
   } catch {
     return new Response("Invalid JSON body.", { status: 400 });
   }
