@@ -2,7 +2,7 @@
 
 ![license](https://img.shields.io/badge/license-MIT-blue) ![node](https://img.shields.io/badge/node-18%2B-informational) ![tests](https://img.shields.io/badge/tests-vitest-6d28d9) ![cost](https://img.shields.io/badge/cost-%240%20forever-22c55e)
 
-**🔗 Live demo: [smartdocs-ai-itsshreyasbhardwaj-2915s-projects.vercel.app](https://smartdocs-ai-itsshreyasbhardwaj-2915s-projects.vercel.app)**
+**🔗 Live demo: [smartdocs-ai-nine.vercel.app](https://smartdocs-ai-nine.vercel.app)**
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/itsshreyasbhardwaj-design/smartdocs-ai)
 
