@@ -22,7 +22,14 @@ polish the prose without changing the facts.
 
 ## Screenshots
 
-> _Add screenshots of the landing page and dashboard here (`docs/screenshots/`)._
+|  |  |
+| --- | --- |
+| **Landing page** | **Features** |
+| ![Landing page hero](./docs/screenshots/landing-hero.png) | ![Features section](./docs/screenshots/landing-features.png) |
+| **Dashboard — generated docs** | **Markdown editor** |
+| ![Dashboard with 15 generated docs](./docs/screenshots/dashboard-generated.png) | ![Raw markdown editor view](./docs/screenshots/dashboard-editor.png) |
+
+_Captured from the live deployment — the dashboard shots show a real analysis of [vitejs/vite](https://github.com/vitejs/vite)._
 
 ## Features
 
