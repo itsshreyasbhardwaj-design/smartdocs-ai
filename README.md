@@ -1,6 +1,10 @@
 # SmartDocs
 
-![license](https://img.shields.io/badge/license-MIT-blue) ![node](https://img.shields.io/badge/node-18%2B-informational) ![tests](https://img.shields.io/badge/tests-vitest-6d28d9)
+![license](https://img.shields.io/badge/license-MIT-blue) ![node](https://img.shields.io/badge/node-18%2B-informational) ![tests](https://img.shields.io/badge/tests-vitest-6d28d9) ![cost](https://img.shields.io/badge/cost-%240%20forever-22c55e)
+
+**🔗 Live demo: [smartdocs-ai-itsshreyasbhardwaj-2915s-projects.vercel.app](https://smartdocs-ai-itsshreyasbhardwaj-2915s-projects.vercel.app)**
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/itsshreyasbhardwaj-design/smartdocs-ai)
 
 **Point SmartDocs at a GitHub repository. Get a complete, editable documentation suite back — in minutes, for $0.**
 
@@ -114,6 +118,30 @@ Deploy to [Vercel](https://vercel.com/new) — no configuration required for
 the free local-generator mode. Set `OPENROUTER_API_KEY` (and optionally
 `GITHUB_TOKEN` to raise the GitHub API rate limit) as environment variables
 in your Vercel project settings to enable the paid/live paths.
+
+## Cost & sustainability
+
+This project is designed to cost **$0, indefinitely**, both to self-host and
+to run as the public demo:
+
+- **No database, no auth service, no metered backend** — project history is
+  client-side (`localStorage`). Nothing here bills by usage.
+- **The AI provider defaults to the free local generator.** `OPENROUTER_API_KEY`
+  is intentionally unset on the public deployment, so the live-LLM code path
+  (the only thing that could cost money) never executes there.
+- **Hosted on Vercel's Hobby plan**, which doesn't charge without a card on
+  file and a plan upgrade. Don't add a payment method to the hosting account
+  unless you intend to go paid.
+- **Rate-limited API routes** (`src/lib/rate-limit.ts`) blunt abusive traffic
+  bursts so the free deployment stays available for everyone.
+- **GitHub API calls are unauthenticated by default** (60 req/hr per IP,
+  shared across all visitors to the public demo). If the demo hits that limit
+  under load, set a fine-grained, public-repo-only `GITHUB_TOKEN` — it's free
+  and raises the limit to 5,000/hr; it does not create any billing risk.
+
+If you fork this and add `OPENROUTER_API_KEY` yourself, you (not this
+project) are opting into OpenRouter's pay-as-you-go pricing for that
+deployment only.
 
 ## Roadmap
 
