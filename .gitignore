@@ -43,3 +43,11 @@ next-env.d.ts
 
 # local editor/preview config
 .claude/
+
+# Security hardening: secret-shaped files, none currently present
+*.key
+credentials*.json
+service-account*.json
+*.log
+*.sqlite
+*.db
